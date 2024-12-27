@@ -1,3 +1,8 @@
+%% Group 7
+% Dimitrios Ioannidis (10415)
+% Dimitrios Karatis (10775)
+
+%% Zitima 3
 function results = Group7Exe3Fun1(TMS, Setup, EDduration, mu0)
     % Initialize results table with additional columns for hypothesis tests
     results = table('Size', [6, 7], 'VariableTypes', {...

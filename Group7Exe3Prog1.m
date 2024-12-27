@@ -1,7 +1,8 @@
-% MATLAB Script: Exercise 3
-% This script analyzes the EDduration data with and without TMS across different setups
-% and tests if the mean duration equals the overall mean duration without TMS
+%% Group 7
+% Dimitrios Ioannidis (10415)
+% Dimitrios Karatis (10775)
 
+%% Zitima 3
 % Clear workspace and close all figures
 clear; close all; clc;
 

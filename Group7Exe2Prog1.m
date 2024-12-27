@@ -1,34 +1,27 @@
-%% Ομάδα 7
-% Δημήτριος Ιωαννίδης (10415)
-% Δημήτριος Καράτης (10775)
+%% Group 7
+% Dimitrios Ioannidis (10415)
+% Dimitrios Karatis (10775)
 
-%% MATLAB Script: Exercise 2
-% This script performs a resampling-based goodness-of-fit test for the
-% exponential distribution on the EDduration data with different coil shapes.
-
-% Clear workspace and close all figures
+%% Zitima 2
 clear; close all; clc;
 
-% Load the dataset from TMS.xlsx
+% Load data
 filename = 'TMS.xlsx';
 data = readtable(filename);
-
-% Extract the relevant columns
 TMS = data.TMS; % TMS status (1 = with TMS, 0 = without TMS)
 CoilCode = data.CoilCode; % Coil shape (1 = eight shape, 0 = round)
 EDduration = data.EDduration; % Duration of ED
 
-% Convert CoilCode to numeric array if it is a cell array
+% CoilCode -> from cell array to double
 if iscell(CoilCode)
     CoilCode = cellfun(@str2double, CoilCode);
 end
 
-% Separate data based on CoilCode
+% Seperation of ED data based on CoilCode and TMS
 ED_eight_shape = EDduration(CoilCode == 1 & TMS == 1); % Data with eight-shaped coil, TMS
 ED_round_shape = EDduration(CoilCode == 0 & TMS == 1); % Data with round coil, TMS
 
-% Number of resamples
-num_resamples = 1000;
+num_resamples = 1000; % Number of resamples
 
 % Function to perform resampling-based goodness-of-fit test
 function p_value = resampling_gof_test(data, num_resamples)
@@ -37,7 +30,7 @@ function p_value = resampling_gof_test(data, num_resamples)
     
     % Compute the Chi-square statistic for the original sample using the MLE
     cdf_exp = @(x) 1 - exp(-lambda_hat * x);
-    [~, p, stats] = chi2gof(data, 'CDF', cdf_exp);
+    [~, ~, stats] = chi2gof(data, 'CDF', cdf_exp);
     chi2_stat_0 = stats.chi2stat; % Chi-square gia to arxiko deigma
     
     % Generate resamples and compute Chi-square statistics

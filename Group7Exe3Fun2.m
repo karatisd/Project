@@ -1,3 +1,8 @@
+%% Group 7
+% Dimitrios Ioannidis (10415)
+% Dimitrios Karatis (10775)
+
+%% Zitima 3
 function Group7Exe3Fun2(results, mu0, normal_no_TMS, normal_with_TMS)
     % Convert confidence intervals to strings for better table display
     results_display = results;
