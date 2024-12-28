@@ -13,27 +13,6 @@ data = readtable(filename);
 data_full = data(data.TMS == 1, :);
 data_full = rmmissing(data_full);
 
-% Define independent variables
-independent_vars = {'Setup', 'Stimuli', 'Intensity', 'Spike', 'Frequency', 'CoilCode'};
-
-% Convert categorical variables to numeric
-for var = independent_vars
-    if iscell(data_full.(var{:})) || iscategorical(data_full.(var{:}))
-        data_full.(var{:}) = double(categorical(data_full.(var{:})));
-    end
-end
-
-% Extract independent and dependent variables
-X_full = data_full{:, independent_vars};
-y = data_full.EDduration;
-
-% Print correlations between predictors and EDduration
-fprintf('Correlations between predictors and EDduration:\n');
-for i = 1:numel(independent_vars)
-    corr_with_y = corr(X_full(:, i), y);
-    fprintf('  %s: %.3f\n', independent_vars{i}, corr_with_y);
-end
-
 % 'Spike' data included
 include_spike = true;
 Group7Exe6Fun1(data_full, include_spike);

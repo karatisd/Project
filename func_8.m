@@ -5,14 +5,20 @@
 %% Zitima 6 - Synarthsh
 % Kanei fit plhres montelo, montelo vimatikis palindromisis kai montelo lasso
 % Analoga me to input 'include_spike' symperilamvanoume th metavlhth 'Spike'
-function Group7Exe6Fun1(data_full, include_spike)
-    % Include or exclude 'Spike'
-    if include_spike
-        independent_vars = {'Setup', 'Stimuli', 'Intensity', 'Spike', 'Frequency', 'CoilCode'};
+function func_8(data_full, include_spike, include_postTMS)
+    % Include or exclude 'Spike' and 'postTMS'
+    if include_spike && include_postTMS
+        independent_vars = {'Setup', 'Stimuli', 'Intensity', 'Spike', 'Frequency', 'CoilCode', 'preTMS', 'postTMS'};
+        disp('------ INCLUDING SPIKE AND postTMS ------');
+    elseif include_spike && ~include_postTMS
+        independent_vars = {'Setup', 'Stimuli', 'Intensity', 'Spike', 'Frequency', 'CoilCode', 'preTMS'};
         disp('------ INCLUDING SPIKE ------');
+    elseif ~include_spike && include_postTMS
+        independent_vars = {'Setup', 'Stimuli', 'Intensity', 'Frequency', 'CoilCode', 'preTMS', 'postTMS'};
+        disp('------ INCLUDING postTMS ------');
     else
-        independent_vars = {'Setup', 'Stimuli', 'Intensity', 'Frequency', 'CoilCode'};
-        disp('------ EXCLUDING SPIKE ------');
+        independent_vars = {'Setup', 'Stimuli', 'Intensity', 'Frequency', 'CoilCode', 'preTMS'};
+        disp('------ EXCLUDING SPIKE AND postTMS ------');
     end
 
     % Convert categorical variables to numeric
@@ -50,6 +56,12 @@ function Group7Exe6Fun1(data_full, include_spike)
         mdl_lasso = fitlm(X_lasso, y, 'VarNames', ['EDduration', independent_vars(lasso_vars_min)]);
     end
 
+    % Principal Component Regression (PCR)
+    [coeff, score, ~, ~, explained] = pca(X_full);
+    n_components = find(cumsum(explained) >= 95, 1); % Retain components explaining 95% variance
+    X_pcr = score(:, 1:n_components);
+    mdl_pcr = fitlm(X_pcr, y);
+
     % Compare models
     fprintf('\nModel Comparisons:\n');
     fprintf('1. Full Model:\n');
@@ -82,4 +94,8 @@ function Group7Exe6Fun1(data_full, include_spike)
         fprintf('\n3. LASSO Regression Model: No predictors selected.\n');
     end
 
+    fprintf('\n4. Principal Component Regression (PCR):\n');
+    fprintf('  R-squared: %.3f\n', mdl_pcr.Rsquared.Ordinary);
+    fprintf('  Adjusted R-squared: %.3f\n', mdl_pcr.Rsquared.Adjusted);
+    fprintf('  Mean Squared Error: %.3f\n', mdl_pcr.MSE);
 end

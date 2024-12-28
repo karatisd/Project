@@ -3,7 +3,7 @@
 % Dimitrios Karatis (10775)
 
 %% Zitima 1
-% Function to plot histogram and fitted PDF
+% Synartisi pou emfanizei to istogramma kai thn PDF
 function Group7Exe1Fun1(data, num_bins, x_range, pdf_values, dist_name, TMS_status)
     figure;
     histogram(data, num_bins, 'Normalization', 'pdf', 'FaceColor', [0.7 0.7 0.7]);

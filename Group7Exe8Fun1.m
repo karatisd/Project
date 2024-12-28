@@ -106,7 +106,6 @@ function Group7Exe8Fun1(data_full, include_spike)
         fprintf('%s\n', independent_vars{nonzero_idx(end)});
         
         % Plot LASSO results
-        figure;
         lassoPlot(B, FitInfo, 'PlotType', 'Lambda', 'XScale', 'log');
         title('LASSO Regression Results');
     catch ME
